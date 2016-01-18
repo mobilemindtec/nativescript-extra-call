@@ -50,7 +50,7 @@ exports.withEmail = function(to, textMessage){
     intent.putExtra(android.content.Intent.EXTRA_EMAIL, addresses);
     */
 
-    application.android.currentContext.startActivity(br.content.Intent.createChooser(intent, "Enviar email..."));
+    application.android.currentContext.startActivity(android.content.Intent.createChooser(intent, "Enviar email..."));
 
   }catch (e) {
     console.log(e)
@@ -66,6 +66,19 @@ exports.withPhone = function(number){
     intent.setData(uri);
     intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK); 
             
+    application.android.currentContext.startActivity(intent);
+
+  }catch (e) {
+    console.log(e)
+    if(mOnFailCallback)
+      mOnFailCallback()
+  }    
+}
+
+exports.withWeb = function(url){
+  try {    
+    var uri = android.net.Uri.parse("http://" + url);
+    var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW, uri);
     application.android.currentContext.startActivity(intent);
 
   }catch (e) {
