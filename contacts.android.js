@@ -77,7 +77,11 @@ exports.withPhone = function(number){
 
 exports.withWeb = function(url){
   try {    
-    var uri = android.net.Uri.parse("http://" + url);
+
+    if(url.indexOf('http') == -1)
+      url = 'http://' + url
+
+    var uri = android.net.Uri.parse(url);
     var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW, uri);
     application.android.currentContext.startActivity(intent);
 
