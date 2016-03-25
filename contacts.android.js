@@ -7,13 +7,14 @@ exports.registerFailCallback = function(onFailCallback){
   mOnFailCallback = onFailCallback
 }
 
-exports.withWhatsapp = function(number, textMessage){
+exports.withWhatsapp = function(args){
 
   try {    
-    var uri = android.net.Uri.parse("smsto:+" + number);
+    var uri = android.net.Uri.parse("smsto:+" + args.number);
     var intent = new android.content.Intent(android.content.Intent.ACTION_SENDT, uri);
+    intent.setType("text/plain");
     intent.setPackage("com.whatsapp");
-    intent.putExtra("sms_body", textMessage);
+    intent.putExtra(android.content.Intent.EXTRA_TEXT, args.message);
     intent.putExtra("chat",true);      
    
     if (intent.resolveActivity(application.android.context.getPackageManager()) != null) {          
@@ -27,17 +28,27 @@ exports.withWhatsapp = function(number, textMessage){
   }catch (e) {
     console.log(e)
     if(mOnFailCallback)
-      mOnFailCallback()
+      mOnFailCallback(e)
   }    
 }
 
-exports.withEmail = function(to, textMessage){
+exports.withEmail = function(args){
 
   try {    
-    var uri = android.net.Uri.parse("mailto:" + to);
+
+    args = args || {}
+    args.subject = args.subject || ""
+    args.message = args.message || ""
+
+    if(!args.to){
+        console.log("## email to is empty")
+        return
+    }
+
+    var uri = android.net.Uri.parse("mailto:" + args.to);
     var intent = new android.content.Intent(android.content.Intent.ACTION_SENDT, uri);    
-    intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Contato SigTurismo");
-    intent.putExtra(android.content.Intent.EXTRA_TEXT, textMessage);
+    intent.putExtra(android.content.Intent.EXTRA_SUBJECT, args.subject);
+    intent.putExtra(android.content.Intent.EXTRA_TEXT, args.message);
     intent.setType("message/rfc822");
     
     /*
@@ -55,7 +66,7 @@ exports.withEmail = function(to, textMessage){
   }catch (e) {
     console.log(e)
     if(mOnFailCallback)
-      mOnFailCallback()
+      mOnFailCallback(e)
   }    
 }
 
@@ -71,7 +82,7 @@ exports.withPhone = function(number){
   }catch (e) {
     console.log(e)
     if(mOnFailCallback)
-      mOnFailCallback()
+      mOnFailCallback(e)
   }    
 }
 
@@ -88,6 +99,6 @@ exports.withWeb = function(url){
   }catch (e) {
     console.log(e)
     if(mOnFailCallback)
-      mOnFailCallback()
+      mOnFailCallback(e)
   }    
 }

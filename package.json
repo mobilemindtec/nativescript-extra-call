@@ -1,2 +1,8 @@
-{ "name" : "nativescript-contacts",
-  "main" : "contacts.js" }
+{
+  "name": "nativescript-contacts",
+  "main": "contacts.js",
+  "version": "0.0.1",
+  "dependencies": {
+    "tns-core-modules": "^1.7.1"
+  }
+}

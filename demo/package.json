@@ -1,0 +1,12 @@
+{
+	"nativescript": {
+		"id": "br.com.mobilemind.demo",
+		"tns-ios": {
+			"version": "1.7.0"
+		}
+	},
+	"dependencies": {
+		"nativescript-contacts": "file:../../nativescript-contacts",
+		"tns-core-modules": "1.7.1"
+	}
+}
