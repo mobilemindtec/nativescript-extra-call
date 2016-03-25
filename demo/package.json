@@ -6,7 +6,8 @@
 		}
 	},
 	"dependencies": {
-		"nativescript-contacts": "file:../../nativescript-contacts",
+		"nativescript-extra-call": "file:../../nativescript-extra-call",
+		"nativescript-contacts": "1.5.0",
 		"tns-core-modules": "1.7.1"
 	}
 }

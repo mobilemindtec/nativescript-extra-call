@@ -11,15 +11,19 @@ exports.withWhatsapp = function(args){
 
   try {    
     
-    var whats = "whatsapp://send=" + args.message
+    var whats 
 
-    if(args.id)
-      whats += "&abid=" + args.id
-    else
+    if(args.abid)
+      whats = "whatsapp://send?abid=" + args.abid + "&text=" + args.message
+    else{
+      whats = "whatsapp://send?text=" //+ args.message
       console.log("for send to especify number, inform the contact id.. contact should be in contact list")
+    }
 
     var whatsEncoded = NSString.stringWithString(whats).stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
     
+    //console.log("## whatsEncoded+" + whatsEncoded)
+
     var nsUrl = NSURL.URLWithString(whatsEncoded)
 
     if(UIApplication.sharedApplication().canOpenURL(nsUrl))
@@ -61,7 +65,7 @@ exports.withEmail = function(args){
 exports.withPhone = function(number){
   try {    
 
-    var nsUrl = NSURL.URLWithString("tel:" + phone)
+    var nsUrl = NSURL.URLWithString("tel:" + number)
     UIApplication.sharedApplication().openURL(nsUrl)
 
   }catch (e) {
@@ -85,4 +89,46 @@ exports.withWeb = function(url){
     if(mOnFailCallback)
       mOnFailCallback(e)
   }    
+}
+
+exports.findABContact = function(number, foundCallback, notFoundCallback){
+  var error;  
+  var addressBook = ABAddressBookCreateWithOptions(null, error).takeRetainedValue();
+  var allPeople = ABAddressBookCopyArrayOfAllPeople(addressBook).takeRetainedValue();
+  var numberOfPeople = ABAddressBookGetPersonCount(addressBook);
+  var found = false;
+
+  for(var i = 0; i < numberOfPeople; i++) {
+
+    if(found) break
+
+      var person = CFArrayGetValueAtIndex( allPeople, i );      
+      //var lastName = ABRecordCopyValue(person, kABPersonLastNameProperty).takeRetainedValue();
+      var phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty).takeRetainedValue();
+
+      var numberOfPhoneNumbers = ABMultiValueGetCount(phoneNumbers)
+      
+      for (var j = 0; j < numberOfPhoneNumbers; j++) {
+          var phoneNumber = ABMultiValueCopyValueAtIndex(phoneNumbers, j).takeRetainedValue();
+
+          var phoneNumberReplaced = phoneNumber.replace("-", "").replace(" ", "")         
+
+          if(phoneNumberReplaced.indexOf(number) > -1){
+
+            var firstName = ABRecordCopyValue(person, kABPersonFirstNameProperty).takeRetainedValue();
+            var abid = NSNumber.numberWithInteger(ABRecordGetRecordID(person));
+            
+          found = true
+            foundCallback({
+              abid: abid,
+              firstName: firstName
+            })
+
+            break
+          }         
+      }     
+  } 
+
+  if(!found)
+    notFoundCallback()
 }
