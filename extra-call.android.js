@@ -15,7 +15,8 @@ exports.withWhatsapp = function(args){
     intent.setType("text/plain");
     intent.setPackage("com.whatsapp");
     intent.putExtra(android.content.Intent.EXTRA_TEXT, args.message);
-    intent.putExtra("chat",true);      
+    intent.putExtra("chat",true);     
+    intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NO_HISTORY); 
    
     if (intent.resolveActivity(application.android.context.getPackageManager()) != null) {          
       application.android.currentContext.startActivity(intent);
@@ -50,6 +51,7 @@ exports.withEmail = function(args){
     intent.putExtra(android.content.Intent.EXTRA_SUBJECT, args.subject);
     intent.putExtra(android.content.Intent.EXTRA_TEXT, args.message);
     intent.setType("message/rfc822");
+    intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NO_HISTORY); 
     
     /*
     var addresses = []
@@ -94,7 +96,9 @@ exports.withWeb = function(url){
 
     var uri = android.net.Uri.parse(url);
     var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW, uri);
+    intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NO_HISTORY); 
     application.android.currentContext.startActivity(intent);
+
 
   }catch (e) {
     console.log(e)
