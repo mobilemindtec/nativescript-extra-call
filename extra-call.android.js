@@ -106,3 +106,37 @@ exports.withWeb = function(url){
       mOnFailCallback(e)
   }    
 }
+
+exports.withVideo = function(path) { 
+
+  try {    
+
+    var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW);
+    var uri = android.net.Uri.parse(path);
+    intent.setDataAndType(uri, "video/*");
+    application.android.currentContext.startActivity(intent); 
+
+
+  }catch (e) {
+    console.log(e)
+    if(mOnFailCallback)
+      mOnFailCallback(e)
+  }  
+   
+}
+
+exports.withImage = function(path) {  
+  try {    
+
+    var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW);
+    var uri = android.net.Uri.parse(path);
+    intent.setDataAndType(uri, "image/*");
+    application.android.currentContext.startActivity(intent); 
+
+
+  }catch (e) {
+    console.log(e)
+    if(mOnFailCallback)
+      mOnFailCallback(e)
+  }  
+}
