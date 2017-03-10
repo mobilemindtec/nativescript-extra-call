@@ -5,8 +5,9 @@
 }
 
 button {
-    font-size: 42;
+    font-size: 25;
     horizontal-align: center;
+    margin-top: 20
 }
 
 .message {
