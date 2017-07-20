@@ -1,8 +1,5 @@
 {
   "name": "nativescript-extra-call",
   "main": "extra-call.js",
-  "version": "0.0.1",
-  "dependencies": {
-    "tns-core-modules": "^2.4.2"
-  }
+  "version": "0.0.1"
 }

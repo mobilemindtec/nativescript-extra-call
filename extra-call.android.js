@@ -75,7 +75,7 @@ exports.withEmail = function(args){
 exports.withPhone = function(number){
   try {    
     var uri = android.net.Uri.parse("tel:" + number);
-    var intent = new android.content.Intent(android.content.Intent.ACTION_CALL);    
+    var intent = new android.content.Intent(android.content.Intent.ACTION_DIAL);    
     intent.setData(uri);
     intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK); 
             
