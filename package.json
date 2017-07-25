@@ -1,5 +1,11 @@
 {
   "name": "nativescript-extra-call",
   "main": "extra-call.js",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "nativescript": {
+    "platforms": {
+      "ios": "3.0.0",
+      "android": "3.0.0"
+    }
+  }  
 }

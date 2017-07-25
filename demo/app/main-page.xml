@@ -1,6 +1,6 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="loaded">
-  <StackLayout>   
-    
+  <StackLayout>
+
     <Button text="Web Call" tap="onWebCall" />
 
     <Button text="Phone Call" tap="onCallPhone" />
@@ -8,6 +8,14 @@
     <Button text="Email Send" tap="onEmailSender" />
 
     <Button text="WhatsApp Add" tap="onWhatsAppAdd" />
-  
+
+    <Button text="Open Local Image" tap="onImageLocal" />
+
+    <Button text="Open Web Image" tap="onImageWeb" />
+
+    <Button text="Open Local Video" tap="onVideoLocal" />
+
+    <Button text="Open Local Web" tap="onVideoWeb" />
+
   </StackLayout>
 </Page>

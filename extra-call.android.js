@@ -111,6 +111,9 @@ exports.withVideo = function(path) {
 
   try {    
 
+      if(path.indexOf('/') == 0)
+        path = 'file://' + path
+
     var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW);
     var uri = android.net.Uri.parse(path);
     intent.setDataAndType(uri, "video/*");
@@ -128,6 +131,9 @@ exports.withVideo = function(path) {
 exports.withImage = function(path) {  
   try {    
 
+    if(path.indexOf('/') == 0)
+      path = 'file://' + path
+    
     var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW);
     var uri = android.net.Uri.parse(path);
     intent.setDataAndType(uri, "image/*");

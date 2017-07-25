@@ -2,12 +2,14 @@ var application = require("application")
 var ExtraCall = require("nativescript-extra-call")
 var contacts = require( "nativescript-contacts" );
 var dialogs = require("ui/dialogs")
+var fs = require("file-system")
 
 exports.loaded = function(){
 
 	console.log("### loaded")
 
 	ExtraCall.registerFailCallback(failCallback)
+
 }
 
 function failCallback(error){
@@ -15,20 +17,20 @@ function failCallback(error){
 }
 
 exports.onWebCall = function(){
-	console.log("## onWebCall")	
+	console.log("## onWebCall")
     var url = "https://twitter.com/intent/tweet?text=NativeScript!&url=http://mobilemind.com.br/&via=mobilemindtec"
 	ExtraCall.withWeb(url)
 }
 
 exports.onCallPhone = function() {
-	console.log("## onCallPhone")	
+	console.log("## onCallPhone")
 	var phone = "555499767081"
 	ExtraCall.withPhone(phone)
 }
 
 exports.onEmailSender = function(){
 	console.log("## onEmailSender")
-	var to = "suporte@mobilemind.com.br" 
+	var to = "suporte@mobilemind.com.br"
 	var textMessage = "I'm testing nativescript plugins!!"
 	var subject = "Nativescript plugin test"
 	ExtraCall.withEmail({
@@ -60,8 +62,31 @@ exports.onWhatsAppAdd = function(){
 	}
 }
 
+exports.onVideoLocal = function() {
+	var current = fs.knownFolders.currentApp()
+	var videoPath = fs.path.join(current.path, 'res/big_buck_bunny.mp4')
+	ExtraCall.withVideo(videoPath)
+}
+
+exports.onVideoWeb = function() {
+	var videoUrl = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
+	ExtraCall.withVideo(videoUrl)
+}
+
+exports.onImageLocal = function(args) {
+	var current = fs.knownFolders.currentApp()
+	var imagePath = fs.path.join(current.path, 'res/mobilemind.png')
+	ExtraCall.withImage(imagePath)
+}
+
+exports.onImageWeb = function(args) {
+	var imageUrl = "https://www.google.com/images/errors/logo_sm_2.png"
+	ExtraCall.withImage(imageUrl)
+}
+
+
 function getOrCreateContact(args){
-	
+
 	ExtraCall.findABContact(args.number, function(obj){
 		console.log(".. found abid=" + obj.abid)
 
@@ -88,5 +113,5 @@ function register(args){
 	var newContact = new contacts.Contact();
 	newContact.name.given = args.name;
 	newContact.phoneNumbers.push({ label: contacts.KnownLabel.MOBILE, value: args.number });
-	newContact.save();	
+	newContact.save();
 }

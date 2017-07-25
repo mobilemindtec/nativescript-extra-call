@@ -9,8 +9,8 @@
     }
   },
   "dependencies": {
-    "nativescript-extra-call": "file:/ns-app/app",
     "nativescript-contacts": "^1.5.0",
+    "nativescript-extra-call": "file:../",
     "tns-core-modules": "^3.0.0"
   },
   "devDependencies": {
