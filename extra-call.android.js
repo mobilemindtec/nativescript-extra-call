@@ -19,11 +19,11 @@ exports.withWhatsapp = function(args){
     intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NO_HISTORY); 
    
     if (intent.resolveActivity(application.android.context.getPackageManager()) != null) {          
-      application.android.currentContext.startActivity(intent);
+      application.android.context.startActivity(intent);
     }else{
       //as not app whatsapp api
       var browserIntent = new android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse("market://details?id=com.whatsapp"));        
-      application.android.currentContext.startActivity(browserIntent);        
+      application.android.context.startActivity(browserIntent);        
     
     }
   }catch (e) {
@@ -63,7 +63,7 @@ exports.withEmail = function(args){
     intent.putExtra(android.content.Intent.EXTRA_EMAIL, addresses);
     */
 
-    application.android.currentContext.startActivity(android.content.Intent.createChooser(intent, "Enviar email..."));
+    application.android.context.startActivity(android.content.Intent.createChooser(intent, "Enviar email..."));
 
   }catch (e) {
     console.log(e)
@@ -79,7 +79,7 @@ exports.withPhone = function(number){
     intent.setData(uri);
     intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK); 
             
-    application.android.currentContext.startActivity(intent);
+    application.android.context.startActivity(intent);
 
   }catch (e) {
     console.log(e)
@@ -97,7 +97,7 @@ exports.withWeb = function(url){
     var uri = android.net.Uri.parse(url);
     var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW, uri);
     intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NO_HISTORY); 
-    application.android.currentContext.startActivity(intent);
+    application.android.context.startActivity(intent);
 
 
   }catch (e) {
@@ -117,7 +117,7 @@ exports.withVideo = function(path) {
     var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW);
     var uri = android.net.Uri.parse(path);
     intent.setDataAndType(uri, "video/*");
-    application.android.currentContext.startActivity(intent); 
+    application.android.context.startActivity(intent); 
 
 
   }catch (e) {
@@ -137,7 +137,7 @@ exports.withImage = function(path) {
     var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW);
     var uri = android.net.Uri.parse(path);
     intent.setDataAndType(uri, "image/*");
-    application.android.currentContext.startActivity(intent); 
+    application.android.context.startActivity(intent); 
 
 
   }catch (e) {
