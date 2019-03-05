@@ -16,8 +16,12 @@ exports.withWhatsapp = function(args){
 
     var whats
 
-    if(args.abid)
+    if(args.abid){
       whats = "whatsapp://send?abid=" + args.abid + "&text=" + args.message
+    }
+    else if(args.phone){
+      whats = "https://wa.me/" + args.phone + "/?text="  + args.message
+    }
     else{
       whats = "whatsapp://send?text=" //+ args.message
       console.log("for send to especify number, inform the contact id.. contact should be in contact list")
