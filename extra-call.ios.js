@@ -19,8 +19,8 @@ exports.withWhatsapp = function(args){
     if(args.abid){
       whats = "whatsapp://send?abid=" + args.abid + "&text=" + args.message
     }
-    else if(args.phone){
-      whats = "https://wa.me/" + args.phone + "/?text="  + args.message
+    else if(args.number){
+      whats = "https://wa.me/" + args.number + "/?text="  + args.message
     }
     else{
       whats = "whatsapp://send?text=" //+ args.message
