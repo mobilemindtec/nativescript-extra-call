@@ -10,13 +10,17 @@ exports.registerFailCallback = function(onFailCallback){
 exports.withWhatsapp = function(args){
 
   try {    
-    var uri = android.net.Uri.parse("smsto:+" + args.number);
-    var intent = new android.content.Intent(android.content.Intent.ACTION_SENDT, uri);
-    intent.setType("text/plain");
-    intent.setPackage("com.whatsapp");
-    intent.putExtra(android.content.Intent.EXTRA_TEXT, args.message);
-    intent.putExtra("chat",true);     
-    intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NO_HISTORY); 
+    var uri = new android.net.Uri.parse("https://api.whatsapp.com/send?phone=" + args.number + "&text=" + args.message)
+    //var uri = android.net.Uri.parse("smsto:+" + args.number);
+    //var intent = new android.content.Intent(android.content.Intent.ACTION_SENDT, uri);
+    var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW)
+    //intent.setType("text/plain");
+    intent.setPackage("com.whatsapp")
+    intent.setData(uri)
+    intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK); 
+    //intent.putExtra(android.content.Intent.EXTRA_TEXT, args.message);
+    //intent.putExtra("chat",true);     
+    //intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NO_HISTORY); 
    
     if (intent.resolveActivity(application.android.context.getPackageManager()) != null) {          
       application.android.context.startActivity(intent);
