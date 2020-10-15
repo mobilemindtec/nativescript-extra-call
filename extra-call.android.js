@@ -7,28 +7,45 @@ exports.registerFailCallback = function(onFailCallback){
   mOnFailCallback = onFailCallback
 }
 
+function whatsAppIsInstalled(uri){
+
+
+  var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW)
+  intent.setPackage("com.whatsapp")
+  intent.setData(uri)
+  intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK); 
+
+  var activity = application.android.foregroundActivity || application.android.startActivity
+  
+  if (intent.resolveActivity(activity.getPackageManager()) != null) {          
+    return intent
+  }
+
+  intent = new android.content.Intent(android.content.Intent.ACTION_VIEW)
+  intent.setPackage("com.whatsapp.w4b")
+  intent.setData(uri)
+  intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+
+  if (intent.resolveActivity(activity.getPackageManager()) != null) {        
+    return intent
+  }
+
+  var browserIntent = new android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse("market://details?id=com.whatsapp"));        
+  activity.startActivity(browserIntent);            
+
+
+  return false
+
+}
+
 exports.withWhatsapp = function(args){
 
-  try {    
+  try {        
     var uri = new android.net.Uri.parse("https://api.whatsapp.com/send?phone=" + args.number + "&text=" + args.message)
-    //var uri = android.net.Uri.parse("smsto:+" + args.number);
-    //var intent = new android.content.Intent(android.content.Intent.ACTION_SENDT, uri);
-    var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW)
-    //intent.setType("text/plain");
-    intent.setPackage("com.whatsapp")
-    intent.setData(uri)
-    intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK); 
-    //intent.putExtra(android.content.Intent.EXTRA_TEXT, args.message);
-    //intent.putExtra("chat",true);     
-    //intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NO_HISTORY); 
-   
-    if (intent.resolveActivity(application.android.context.getPackageManager()) != null) {          
-      application.android.context.startActivity(intent);
-    }else{
-      //as not app whatsapp api
-      var browserIntent = new android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse("market://details?id=com.whatsapp"));        
-      application.android.context.startActivity(browserIntent);        
-    
+    var intent = whatsAppIsInstalled(uri)
+    var activity = application.android.foregroundActivity || application.android.startActivity
+    if (intent) {          
+      activity.startActivity(intent);
     }
   }catch (e) {
     console.log(e)
@@ -67,7 +84,8 @@ exports.withEmail = function(args){
     intent.putExtra(android.content.Intent.EXTRA_EMAIL, addresses);
     */
 
-    application.android.context.startActivity(android.content.Intent.createChooser(intent, "Enviar email..."));
+    var activity = application.android.foregroundActivity || application.android.startActivity
+    activity.startActivity(android.content.Intent.createChooser(intent, "Enviar email..."));
 
   }catch (e) {
     console.log(e)
@@ -82,8 +100,9 @@ exports.withPhone = function(number){
     var intent = new android.content.Intent(android.content.Intent.ACTION_DIAL);    
     intent.setData(uri);
     intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK); 
-            
-    application.android.context.startActivity(intent);
+    
+    var activity = application.android.foregroundActivity || application.android.startActivity
+    activity.startActivity(intent);
 
   }catch (e) {
     console.log(e)
@@ -101,7 +120,9 @@ exports.withWeb = function(url){
     var uri = android.net.Uri.parse(url);
     var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW, uri);
     intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NO_HISTORY); 
-    application.android.context.startActivity(intent);
+
+    var activity = application.android.foregroundActivity || application.android.startActivity
+    activity.startActivity(intent);
 
 
   }catch (e) {
@@ -121,7 +142,9 @@ exports.withVideo = function(path) {
     var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW);
     var uri = android.net.Uri.parse(path);
     intent.setDataAndType(uri, "video/*");
-    application.android.context.startActivity(intent); 
+
+    var activity = application.android.foregroundActivity || application.android.startActivity
+    activity.startActivity(intent); 
 
 
   }catch (e) {
@@ -141,7 +164,9 @@ exports.withImage = function(path) {
     var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW);
     var uri = android.net.Uri.parse(path);
     intent.setDataAndType(uri, "image/*");
-    application.android.context.startActivity(intent); 
+
+    var activity = application.android.foregroundActivity || application.android.startActivity
+    activity.startActivity(intent); 
 
 
   }catch (e) {
