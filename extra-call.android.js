@@ -1,4 +1,4 @@
-import { Application } from "@nativescript/core"
+var application = require("@nativescript/core/application")
 
 
 var mOnFailCallback

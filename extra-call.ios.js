@@ -1,6 +1,7 @@
-import { Application, ImageSource } from "@nativescript/core"
-import { * as fs } from "@nativescript/core/file-system"
-import { * as enums } from "@nativescript/core/enums"
+var Application = require("@nativescript/core").Application
+var ImageSource  = require("@nativescript/core").ImageSource
+var fs = require("@nativescript/core/file-system")
+var enums = require("@nativescript/core/enums")
 
 var mOnFailCallback
 var imageViewDataSource
