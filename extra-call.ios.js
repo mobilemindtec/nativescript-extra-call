@@ -1,7 +1,6 @@
-var application = require("application");
-var fs = require("file-system")
-var imageSource = require("image-source")
-var enums = require("ui/enums")
+import { Application, ImageSource } from "@nativescript/core"
+import { * as fs } from "@nativescript/core/file-system"
+import { * as enums } from "@nativescript/core/enums"
 
 var mOnFailCallback
 var imageViewDataSource
@@ -111,7 +110,7 @@ exports.withVideo = function(path){
     var player = AVPlayer.playerWithURL(url)
     var playerViewController = AVPlayerViewController.alloc().init()
     playerViewController.player = player
-    application.ios.rootController.presentViewControllerAnimatedCompletion(playerViewController, true, null)
+    Application.ios.rootController.presentViewControllerAnimatedCompletion(playerViewController, true, null)
 
   }catch (error) {
     console.log(error)
@@ -153,7 +152,7 @@ exports.withImage = function(args){
 
 				var quickLookPreview = qlookclass.alloc().init()
 				quickLookPreview.dataSource = imageViewDataSource
-				application.ios.rootController.presentViewControllerAnimatedCompletion(quickLookPreview, true, null)
+				Application.ios.rootController.presentViewControllerAnimatedCompletion(quickLookPreview, true, null)
 
         if(callback)
           callback()
@@ -235,7 +234,7 @@ function downloadAndSaveTempImage(imageUrl, successCallback, errorCallback){
   }
 
   // save temp file
-	imageSource.fromUrl(imageUrl).then(function (img) {
+	new ImageSource().fromUrl(imageUrl).then(function (img) {
 
 		var temp = fs.knownFolders.temp()
 		var splited = imageUrl.split("/")
