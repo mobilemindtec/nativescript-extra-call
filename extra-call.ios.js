@@ -1,7 +1,7 @@
 var Application = require("@nativescript/core").Application
 var ImageSource  = require("@nativescript/core").ImageSource
 var fs = require("@nativescript/core/file-system")
-var enums = require("@nativescript/core/enums")
+var enums = require("@nativescript/core/ui/enums")
 
 var mOnFailCallback
 var imageViewDataSource
