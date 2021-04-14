@@ -15,7 +15,7 @@ function whatsAppIsInstalled(uri){
   intent.setData(uri)
   intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK); 
 
-  var activity = Application.android.foregroundActivity || Application.android.startActivity
+  var activity = application.android.foregroundActivity || application.android.startActivity
   
   if (intent.resolveActivity(activity.getPackageManager()) != null) {          
     return intent
@@ -43,7 +43,7 @@ exports.withWhatsapp = function(args){
   try {        
     var uri = new android.net.Uri.parse("https://api.whatsapp.com/send?phone=" + args.number + "&text=" + args.message)
     var intent = whatsAppIsInstalled(uri)
-    var activity = Application.android.foregroundActivity || Application.android.startActivity
+    var activity = application.android.foregroundActivity || application.android.startActivity
     if (intent) {          
       activity.startActivity(intent);
     }
@@ -84,7 +84,7 @@ exports.withEmail = function(args){
     intent.putExtra(android.content.Intent.EXTRA_EMAIL, addresses);
     */
 
-    var activity = Application.android.foregroundActivity || Application.android.startActivity
+    var activity = application.android.foregroundActivity || application.android.startActivity
     activity.startActivity(android.content.Intent.createChooser(intent, "Enviar email..."));
 
   }catch (e) {
@@ -101,7 +101,7 @@ exports.withPhone = function(number){
     intent.setData(uri);
     intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK); 
     
-    var activity = Application.android.foregroundActivity || Application.android.startActivity
+    var activity = application.android.foregroundActivity || application.android.startActivity
     activity.startActivity(intent);
 
   }catch (e) {
@@ -121,7 +121,7 @@ exports.withWeb = function(url){
     var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW, uri);
     intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NO_HISTORY); 
 
-    var activity = Application.android.foregroundActivity || Application.android.startActivity
+    var activity = application.android.foregroundActivity || application.android.startActivity
     activity.startActivity(intent);
 
 
@@ -143,7 +143,7 @@ exports.withVideo = function(path) {
     var uri = android.net.Uri.parse(path);
     intent.setDataAndType(uri, "video/*");
 
-    var activity = Application.android.foregroundActivity || Application.android.startActivity
+    var activity = application.android.foregroundActivity || application.android.startActivity
     activity.startActivity(intent); 
 
 
@@ -165,7 +165,7 @@ exports.withImage = function(path) {
     var uri = android.net.Uri.parse(path);
     intent.setDataAndType(uri, "image/*");
 
-    var activity = Application.android.foregroundActivity || Application.android.startActivity
+    var activity = application.android.foregroundActivity || application.android.startActivity
     activity.startActivity(intent); 
 
 
