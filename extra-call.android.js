@@ -9,26 +9,28 @@ exports.registerFailCallback = function(onFailCallback){
 
 function whatsAppIsInstalled(uri){
 
+  var whatsAppPackages = [
+    "com.whatsapp.w4b",
+    "com.whatsapp.wb4",
+    "com.whatsapp"
+  ]
 
-  var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW)
-  intent.setPackage("com.whatsapp")
-  intent.setData(uri)
-  intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK); 
+  for(var i in whatsAppPackages){
 
-  var activity = application.android.foregroundActivity || application.android.startActivity
-  
-  if (intent.resolveActivity(activity.getPackageManager()) != null) {          
-    return intent
+    var package = whatsAppPackages[i]
+
+    var intent = new android.content.Intent(android.content.Intent.ACTION_VIEW)
+    intent.setPackage(package)
+    intent.setData(uri)
+    intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK); 
+
+    var activity = application.android.foregroundActivity || application.android.startActivity
+    
+    if (intent.resolveActivity(activity.getPackageManager()) != null) {          
+      return intent
+    }
   }
 
-  intent = new android.content.Intent(android.content.Intent.ACTION_VIEW)
-  intent.setPackage("com.whatsapp.w4b")
-  intent.setData(uri)
-  intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
-
-  if (intent.resolveActivity(activity.getPackageManager()) != null) {        
-    return intent
-  }
 
   var browserIntent = new android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse("market://details?id=com.whatsapp"));        
   activity.startActivity(browserIntent);            
